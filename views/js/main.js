@@ -512,12 +512,12 @@ function logAverageFrame(times) { // times is the array of User Timing measureme
 function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
-    // var phase = Math.sin(document.body.scrollTop / 1250);
     var items = document.getElementsByClassName('mover');
+    var Calc = Math.sin(document.body.scrollTop/1250);
     var pizzasArray = [];
 
     for (var j = 0; j < 5; j++) {
-    pizzasArray.push(Math.sin(document.body.scrollTop/1250) + j );
+    pizzasArray.push(Calc + j );
   }
 
     for (var i = 0; i < items.length; i++) {
