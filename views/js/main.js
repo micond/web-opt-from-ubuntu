@@ -446,6 +446,7 @@ var resizePizzas = function(size) {
     // ***********************************************************
 
     function changePizzaSizes(size) {
+      var newWidth = 0;
         switch (size) {
             case "1":
                 newWidth = 25;
@@ -515,8 +516,8 @@ function updatePositions() {
     var items = document.getElementsByClassName('mover');
     var pizzasArray = [];
 
-    for (var i = 0; i < 5; i++) {
-    pizzasArray.push(Math.sin(document.body.scrollTop / 1250) + i );
+    for (var j = 0; j < 5; j++) {
+    pizzasArray.push(Math.sin(document.body.scrollTop/1250) + j );
   }
 
     for (var i = 0; i < items.length; i++) {
