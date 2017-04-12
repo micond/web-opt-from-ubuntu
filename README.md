@@ -1,12 +1,9 @@
-## Website Performance Optimization portfolio project
+## Website Performance Optimization project
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
-
-To get started, check out the repository and inspect the code.
+Goal of the project is to optimize the critical rendering path and make the page render as quickly as possible.
+[Critical Rendering Path course](https://www.udacity.com/course/ud884).
 
 ### Getting started
-
-#### Part 1: Optimize PageSpeed Insights score for index.html
 
 Some useful tips to help you get started:
 
@@ -28,29 +25,82 @@ Some useful tips to help you get started:
 
 1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
 
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
+### My steps to optimize the web page:
 
-#### Part 2: Optimize Frames per Second in pizza.html
+- moved the scripts to the bottom of the page to load them alast and used async to load them asynchronously.
+- css inline to not block the page rendering
+- compressed images in Gimp
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
+Best achieved score by PSI: 92/100.
 
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+#### Frames per Second in main.js
 
-### Optimization Tips and Tricks
-* [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
-* [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
-* [Optimizing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "optimize the crp!")
-* [Avoiding Rendering Blocking CSS](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "render blocking css")
-* [Optimizing JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [Measuring with Navigation Timing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api"). We didn't cover the Navigation Timing API in the first two lessons but it's an incredibly useful tool for automated page profiling. I highly recommend reading.
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">The fewer the downloads, the better</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
+- I have removed the determineDx function and replace it with below code:
 
-### Customization with Bootstrap
-The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
+```javascript
+  function changePizzaSizes(size) {
+      var newWidth = 0;
+        switch (size) {
+            case "1":
+                newWidth = 25;
+                break;
+            case "2":
+                newWidth = 33.3;
+                break;
+            case "3":
+                newWidth = 50;
+                break;
+            default:
+                console.log("bug in sizeSwitcher");
+        }
 
-* <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
-# web-opt-from-ubuntu
+        var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
+
+        for (var i = 0; i < randomPizzas.length; i++) {
+            randomPizzas[i].style.width = newWidth + "%";
+        }
+    }
+
+    changePizzaSizes(size);
+```
+- In updatePositions() function I have moved calculation Math.sin() outside the loop
+    and put it into Calc variable. Another loop is pushing Cacl values into     
+    pizzasArray. see the code below:
+```javascript
+function updatePositions() {
+    frame++;
+    window.performance.mark("mark_start_frame");
+    var items = document.getElementsByClassName('mover');
+    var Calc = Math.sin(document.body.scrollTop/1250);
+    var pizzasArray = [];
+
+    for (var j = 0; j < 5; j++) {
+    pizzasArray.push(Calc + j );
+  }
+
+    for (var i = 0; i < items.length; i++) {
+        items[i].style.left = items[i].basicLeft + 100 * pizzasArray[i % 5] + 'px';
+    }
+```
+- In addEventListener on line 541, I have removed the querySelector outside the loop and put it into variable miniPizzas. 
+- Lowering the amount of pizza element generated from 200 to 20. code below:
+
+```javascript
+var miniPizzas = document.querySelector("#movingPizzas1");
+// Generates the sliding pizzas when the page loads.
+document.addEventListener('DOMContentLoaded', function() {
+    var cols = 8;
+    var s = 256;
+    for (var i = 0; i < 20; i++) {
+        var elem = document.createElement('img');
+        elem.className = 'mover';
+        elem.src = "images/pizza.png";
+        elem.style.height = "100px";
+        elem.style.width = "73.333px";
+        elem.basicLeft = (i % cols) * s;
+        elem.style.top = (Math.floor(i / cols) * s) + 'px';
+        miniPizzas.appendChild(elem);
+    }
+    updatePositions();
+});
+```
