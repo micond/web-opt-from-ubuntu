@@ -74,31 +74,29 @@ Best achieved score by PSI: 92/100.
     pizzasArray. see the code below:
 ```javascript
 function updatePositions() {
-    frame++;
-    window.performance.mark("mark_start_frame");
-    var items = document.getElementsByClassName('mover');
-    var Calc = Math.sin(document.body.scrollTop/1250);
-    var pizzasArray = [];
+  frame++;
+  var phase;
+  phase = Math.sin((document.body.scrollTop / 1250));
+  window.performance.mark("mark_start_frame");
 
-    for (var j = 0; j < 5; j++) {
-    pizzasArray.push(Calc + j );
+  var items = document.getElementsByClassName('mover');
+  for (var i = 0; i < items.length; i++) {
+    // phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    items[i].style.left = items[i].basicLeft + 100 * (phase + (i % 5)) + 'px';
   }
-
-    for (var i = 0; i < items.length; i++) {
-        items[i].style.left = items[i].basicLeft + 100 * pizzasArray[i % 5] + 'px';
-    }
 ```
 - In addEventListener on line 541, I have removed the querySelector outside the loop and put it into variable miniPizzas. 
 - Lowering the amount of pizza element generated from 200 to 20. code below:
 
 ```javascript
-var miniPizzas = document.querySelector("#movingPizzas1");
+var miniPizzas = document.getElementById("movingPizzas1");
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
     var cols = 8;
     var s = 256;
-    for (var i = 0; i < 20; i++) {
-        var elem = document.createElement('img');
+    var elem;
+    for (var i = 0; i < 40; i++) {
+        elem = document.createElement('img');
         elem.className = 'mover';
         elem.src = "images/pizza.png";
         elem.style.height = "100px";
