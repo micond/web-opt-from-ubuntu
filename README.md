@@ -3,20 +3,26 @@
 Goal of the project is to optimize the critical rendering path and make the page render as quickly as possible.
 [Critical Rendering Path course](https://www.udacity.com/course/ud884).
 
-### Getting started
+## Installation
+1. Download the GitHub zip file or clone the repository onto your local workstation:
+	* zip file [https://github.com/micond/web-opt-from-ubuntu/archive/master.zip](https://github.com/micond/web-opt-from-ubuntu/archive/master.zip "download zip file")
+	* git clone [https://github.com/micond/web-opt-from-ubuntu.git](https://github.com/micond/web-opt-from-ubuntu.git "git clone repository")
+2. To run the application please open index.html in your web browser
+Application is responsive and can be used on various devices (desktop pc, mobiles, tablets, ...).
 
-Some useful tips to help you get started:
+Some useful tips to get started:
 
 1. Check out the repository
 1. To inspect the site on your phone, you can run a local server
 
   ```bash
-  $> cd /path/to/your-project-folder
+  $> cd /path/to/project-folder
   $> python -m SimpleHTTPServer 8080
   ```
 
 1. Open a browser and visit localhost:8080
 1. Download and install [ngrok](https://ngrok.com/) to the top-level of your project directory to make your local server accessible remotely.
+2. Visit Getting started with ngrok for more info" [https://ngrok.com/docs#getting-started](https://ngrok.com/docs#getting-started "Gettingt Started")
 
   ``` bash
   $> cd /path/to/your-project-folder
@@ -28,7 +34,7 @@ Some useful tips to help you get started:
 ### My steps to optimize the web page:
 
 - moved the scripts to the bottom of the page to load them alast and used async to load them asynchronously.
-- css inline to not block the page rendering
+- css inline to not block the page rendering and added backface-visibility: hidden; for .mover class. more info: https://www.w3schools.com/cssref/css3_pr_backface-visibility.asp
 - compressed images in Gimp
 
 Best achieved score by PSI: 92/100.
