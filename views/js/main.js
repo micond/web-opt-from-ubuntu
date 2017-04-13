@@ -427,13 +427,13 @@ var resizePizzas = function(size) {
     function changeSliderLabel(size) {
         switch (size) {
             case "1":
-                document.querySelector("#pizzaSize").innerHTML = "Small";
+                document.getElementById("pizzaSize").innerHTML = "Small";
                 return;
             case "2":
-                document.querySelector("#pizzaSize").innerHTML = "Medium";
+                document.getElementById("pizzaSize").innerHTML = "Medium";
                 return;
             case "3":
-                document.querySelector("#pizzaSize").innerHTML = "Large";
+                document.getElementById("pizzaSize").innerHTML = "Large";
                 return;
             default:
                 console.log("bug in changeSliderLabel");
@@ -510,20 +510,14 @@ function logAverageFrame(times) { // times is the array of User Timing measureme
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
-    frame++;
-    window.performance.mark("mark_start_frame");
-    var items = document.getElementsByClassName('mover');
-    var Calc = Math.sin(document.body.scrollTop/1250);
-    var pizzasArray = [];
+  frame++;
+  window.performance.mark("mark_start_frame");
 
-    for (var j = 0; j < 5; j++) {
-    pizzasArray.push(Calc + j );
+  var items = document.getElementsByClassName('mover');
+  for (var i = 0; i < items.length; i++) {
+    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
-
-    for (var i = 0; i < items.length; i++) {
-        // var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-        items[i].style.left = items[i].basicLeft + 100 * pizzasArray[i % 5] + 'px';
-    }
 
     // User Timing API to the rescue again. Seriously, it's worth learning.
     // Super easy to create custom metrics.
@@ -537,13 +531,14 @@ function updatePositions() {
 
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
-var miniPizzas = document.querySelector("#movingPizzas1");
+var miniPizzas = document.getElementById("movingPizzas1");
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
     var cols = 8;
     var s = 256;
-    for (var i = 0; i < 20; i++) {
-        var elem = document.createElement('img');
+    var elem;
+    for (var i = 0; i < 24; i++) {
+        elem = document.createElement('img');
         elem.className = 'mover';
         elem.src = "images/pizza.png";
         elem.style.height = "100px";
