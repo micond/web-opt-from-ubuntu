@@ -446,7 +446,7 @@ var resizePizzas = function(size) {
     // ***********************************************************
 
     function changePizzaSizes(size) {
-      var newWidth = 0;
+        var newWidth = 0;
         switch (size) {
             case "1":
                 newWidth = 25;
@@ -510,14 +510,16 @@ function logAverageFrame(times) { // times is the array of User Timing measureme
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
-  frame++;
-  window.performance.mark("mark_start_frame");
+    frame++;
+    var phase;
 
-  var items = document.getElementsByClassName('mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-  }
+    phase = Math.sin((document.body.scrollTop / 1250));
+    window.performance.mark("mark_start_frame");
+    var items = document.getElementsByClassName('mover');
+    for (var i = 0; i < items.length; i++) {
+        // phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+        items[i].style.left = items[i].basicLeft + 100 * (phase + (i % 5)) + 'px';
+    }
 
     // User Timing API to the rescue again. Seriously, it's worth learning.
     // Super easy to create custom metrics.
@@ -537,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var cols = 8;
     var s = 256;
     var elem;
-    for (var i = 0; i < 24; i++) {
+    for (var i = 0; i < 40; i++) {
         elem = document.createElement('img');
         elem.className = 'mover';
         elem.src = "images/pizza.png";
