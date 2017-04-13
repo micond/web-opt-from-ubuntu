@@ -70,8 +70,7 @@ Best achieved score by PSI: 92/100.
     changePizzaSizes(size);
 ```
 - In updatePositions() function I have moved calculation Math.sin() outside the loop
-    and put it into Calc variable. Another loop is pushing Cacl values into     
-    pizzasArray. see the code below:
+    and put it into phase variable. see the code below:
 ```javascript
 function updatePositions() {
   frame++;
@@ -85,8 +84,8 @@ function updatePositions() {
     items[i].style.left = items[i].basicLeft + 100 * (phase + (i % 5)) + 'px';
   }
 ```
-- In addEventListener on line 541, I have removed the querySelector outside the loop and put it into variable miniPizzas. 
-- Lowering the amount of pizza element generated from 200 to 20. code below:
+- In addEventListener on line 541, I have removed the querySelector outside the loop, changed it to getElementById and put it into variable miniPizzas. 
+- Lowering the amount of pizza element generated from 200 to 40. code below:
 
 ```javascript
 var miniPizzas = document.getElementById("movingPizzas1");
